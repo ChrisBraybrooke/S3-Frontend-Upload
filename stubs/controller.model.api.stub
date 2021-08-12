@@ -1,0 +1,80 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ rootNamespace }}Http\Requests\{{ model }}CreateRequest;
+use {{ rootNamespace }}Http\Requests\{{ model }}UpdateRequest;
+use {{ rootNamespace }}Http\Resources\{{ model }} as {{ model }}Resource;
+use Illuminate\Http\Request;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $this->authorize('viewAny', {{ model }}::class);
+
+        return {{ model }}Resource::collection(
+            {{ model }}::with($request->with ?: [])
+                ->basicResponse()
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{ model }}CreateRequest $request)
+    {
+        ${{ modelVariable }} = {{ model }}::create($request->validated());
+        return new {{ model }}Resource(${{ modelVariable }}->load($request->with ?: []));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, {{ model }} ${{ modelVariable }})
+    {
+        $this->authorize('view', ${{ modelVariable }});
+        return new {{ model }}Resource(${{ modelVariable }}->load($request->with ?: []));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function update({{ model }}UpdateRequest $request, {{ model }} ${{ modelVariable }})
+    {
+        ${{ modelVariable }}->update($request->validated());
+        return new {{ model }}Resource(${{ modelVariable }}->load($request->with ?: []));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy({{ model }} ${{ modelVariable }})
+    {
+        $this->authorize('delete', ${{ modelVariable }});
+        ${{ modelVariable }}->delete();
+        return response()->deletedOk();
+    }
+}

@@ -4,10 +4,10 @@ namespace ChrisBraybrooke\NAMESPACE_HERE;
 
 use ChrisBraybrooke\NAMESPACE_HERE\Providers\EventServiceProvider;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\FileSystem\FileSystem;
 
-class ServiceProvider extends ServiceProvider
+class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Bootstrap the package.
@@ -52,9 +52,9 @@ class ServiceProvider extends ServiceProvider
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');            
         }
 
-        $this->publishes([
-            __DIR__.'/../database/migrations/' => database_path('migrations')
-        ], 'PACKAGE_NAME-migrations');
+        // $this->publishes([
+        //     __DIR__.'/../database/migrations/' => database_path('migrations')
+        // ], 'PACKAGE_NAME-migrations');
     }
 
     /** 

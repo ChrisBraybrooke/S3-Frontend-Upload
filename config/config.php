@@ -14,5 +14,5 @@ return [
     |
     */
 
-    'ignore_migrations' = false
+    'ignore_migrations' => true
 ];

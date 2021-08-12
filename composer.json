@@ -19,6 +19,11 @@
             ]
         }
     },
+    "require": {
+        "php": "^7.3|^8.0",
+        "laravel/framework": "^8",
+        "chrisbraybrooke/helpers": "^0.0.1"
+    },
     "require-dev": {
         "orchestra/canvas": "^6.4"
     }
