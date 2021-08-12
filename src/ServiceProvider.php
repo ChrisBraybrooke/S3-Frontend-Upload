@@ -1,6 +1,6 @@
 <?php
 
-namespace ChrisBraybrooke\SPABackend;
+namespace ChrisBraybrooke\NAMESPACE_HERE;
 
 use ChrisBraybrooke\NAMESPACE_HERE\Providers\EventServiceProvider;
 use Illuminate\Support\Facades\Route;
@@ -9,27 +9,6 @@ use Illuminate\FileSystem\FileSystem;
 
 class ServiceProvider extends ServiceProvider
 {
-    /** 
-     * Put together the path to the config file.
-     *
-     * @return string
-     */
-    private function configPath(): string
-    {
-        return __DIR__.'/../config/' . $this->shortName() . '.php';
-    }
-
-    /** 
-     * Get the short name for this package.
-     *
-     * @return string
-     */
-    private function shortName(): string
-    {
-        return 'chrisbraybrooke-package';
-    }
-
-
     /**
      * Bootstrap the package.
      *
@@ -39,10 +18,9 @@ class ServiceProvider extends ServiceProvider
     {
         $this->handleRoutes();
         $this->handleConfigs();
+        $this->handleMigrations();
+        $this->handleTranslations();
 
-        if (env('APP_ENV') === 'local') {
-            $this->handleMigrations();
-        }
 
         if ($this->app->runningInConsole()) {
             $this->commands([
@@ -58,7 +36,7 @@ class ServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom($this->configPath(), $this->shortName());
+        $this->mergeConfig();
 
         $this->app->register(EventServiceProvider::class);
     }
@@ -70,30 +48,39 @@ class ServiceProvider extends ServiceProvider
      */
     private function handleMigrations()
     {
-        $files = new FileSystem();
-        foreach ($files->glob('database/migrations/*_*.php') as $key => $file) {
-            $file->requireOnce($file);
+        if (!config('CONFIG_NAME.ignore_migrations')) {
+            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');            
         }
 
         $this->publishes([
-            __DIR__.'/../database/migrations/default.php.stub' => database_path('migrations/2020_03_15_000000_default.php')
-        ], $this->shortName() . '-migrations');
+            __DIR__.'/../database/migrations/' => database_path('migrations')
+        ], 'PACKAGE_NAME-migrations');
     }
 
     /** 
-     * Register any routes this package needs.
+     * Register any translations.
      *
      * @return void
      */
-    private function handleRoutes()
+    private function handleTranslations()
     {
-        Route::group([
-            'name' => $this->shortName(),
-            'namespace' => 'ChrisBraybrooke\SPABackend\Http\Controllers',
-            'middleware' => ['web']
-        ], function () {
-            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
-        });
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'PACKAGE_NAME');
+
+        $this->publishes([
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/PACKAGE_NAME'),
+        ], 'PACKAGE_NAME-translations');
+    }
+
+    /** 
+     * Merge the config files from both the package and application.
+     *
+     * @return void
+     */
+    private function mergeConfig()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/CONFIG_NAME.php', 'CONFIG_NAME'
+        );
     }
 
     /** 
@@ -104,9 +91,33 @@ class ServiceProvider extends ServiceProvider
     private function handleConfigs()
     {
         $this->publishes([
-            $this->configPath(),
-            $this->shortName() . '-config'
-        ]);
+            __DIR__.'/../config/CONFIG_NAME.php' => config_path('CONFIG_NAME.php')
+        ], 'PACKAGE_NAME-config');
     }
 
+    /** 
+     * Register any routes this package needs.
+     *
+     * @return void
+     */
+    private function handleRoutes()
+    {
+        Route::group([
+            'name' => 'PACKAGE_NAME-web',
+            'prefix' => 'PACKAGE_NAME.web',
+            'namespace' => 'ChrisBraybrooke\NAMESPACE_HERE\Http\Controllers',
+            'middleware' => ['web']
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
+        });
+
+        Route::group([
+            'name' => 'PACKAGE_NAME-web',
+            'prefix' => 'PACKAGE_NAME.api',
+            'namespace' => 'ChrisBraybrooke\NAMESPACE_HERE\Http\Controllers\Api',
+            'middleware' => ['api']
+        ], function () {
+            $this->loadRoutesFrom(__DIR__.'/../routes/api.php');
+        });
+    }
 }

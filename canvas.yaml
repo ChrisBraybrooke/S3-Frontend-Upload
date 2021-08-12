@@ -1,0 +1,27 @@
+preset: package
+
+namespace: ChrisBraybrooke\NAMESPACE_HERE
+user-auth-provider: App\Models\User
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: database/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: ChrisBraybrooke\NAMESPACE_HERE\Commands
+
+model:
+  namespace: ChrisBraybrooke\NAMESPACE_HERE\Models
+
+provider:
+  namespace: ChrisBraybrooke\NAMESPACE_HERE\Providers
+
+testing:
+  namespace: ChrisBraybrooke\NAMESPACE_HERE\Tests

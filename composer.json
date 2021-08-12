@@ -1,5 +1,5 @@
 {
-    "name": "chrisbraybrooke/chrisbraybrooke-package",
+    "name": "chrisbraybrooke/PACKAGE_NAME",
     "description": "A package by Christian Braybrooke",
     "authors": [
         {
@@ -12,12 +12,14 @@
             "ChrisBraybrooke\\NAMESPACE_HERE\\": "src/"
         }
     },
-    "require": {},
     "extra": {
         "laravel": {
             "providers": [
                 "ChrisBraybrooke\\NAMESPACE_HERE\\ServiceProvider"
             ]
         }
+    },
+    "require-dev": {
+        "orchestra/canvas": "^6.4"
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace ChrisBraybrooke\NAMESPACE_HERE;
+namespace ChrisBraybrooke\NAMESPACE_HERE\Http\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
