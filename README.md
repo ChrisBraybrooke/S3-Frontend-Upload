@@ -4,7 +4,7 @@ An opinionated template for creating my new laravel packages.
 
 ## Installation
 
-Replace `package-name` below with the name of the new package, for example `sns-messages`
+Replace `package-name` below with the name of the new package, for example `sns-messages`.
 
 ```
 git clone git@github.com:ChrisBraybrooke/Laravel-Package-Template.git package-name
@@ -28,7 +28,7 @@ cd host-project
 vim composer.json
 ```
 
-Then paste the following anywhere in the file.
+Then paste the following anywhere in the file. Replace `package-name` below with the name of the new package, for example `sns-messages`.
 
 ```
 "repositories": {
