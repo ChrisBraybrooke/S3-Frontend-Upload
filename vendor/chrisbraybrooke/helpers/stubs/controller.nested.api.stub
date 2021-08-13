@@ -1,0 +1,90 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ namespacedModel }};
+use {{ rootNamespace }}Http\Controllers\Controller;
+use {{ rootNamespace }}Http\Requests\{{ model }}CreateRequest;
+use {{ rootNamespace }}Http\Requests\{{ model }}UpdateRequest;
+use {{ rootNamespace }}Http\Resources\{{ model }} as {{ model }}Resource;
+use Illuminate\Http\Request;
+use {{ namespacedParentModel }};
+
+class {{ class }} extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request, {{ parentModel }} ${{ parentModelVariable }})
+    {
+        $this->authorize('viewAny', {{ model }}::class);
+        $this->authorize('view', ${{ parentModelVariable }});
+
+        return {{ model }}Resource::collection(
+            ${{ parentModelVariable }}->{{ modelVariable }}s()
+                ->with($request->with ?: [])
+                ->basicResponse()
+        );
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function store({{ model }}CreateRequest $request, {{ parentModel }} ${{ parentModelVariable }})
+    {
+        ${{ modelVariable }} = {{ model }}::create($request->validated());
+        return new {{ model }}Resource(${{ modelVariable }}->load($request->with ?: []));
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Request $request, {{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    {
+        $this->authorize('view', ${{ modelVariable }});
+        $this->authorize('view', ${{ parentModelVariable }});
+        return new {{ model }}Resource(${{ modelVariable }}->load($request->with ?: []));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, {{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    {
+        ${{ modelVariable }}->update($request->validated());
+        return new {{ model }}Resource(${{ modelVariable }}->load($request->with ?: []));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \{{ namespacedParentModel }}  ${{ parentModelVariable }}
+     * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy({{ parentModel }} ${{ parentModelVariable }}, {{ model }} ${{ modelVariable }})
+    {
+        $this->authorize('delete', ${{ modelVariable }});
+        $this->authorize('update', ${{ parentModelVariable }});
+        ${{ modelVariable }}->delete();
+        return response()->deletedOk();
+    }
+}

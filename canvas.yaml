@@ -1,6 +1,6 @@
 preset: package
 
-namespace: ChrisBraybrooke\NAMESPACE_HERE
+namespace: ChrisBraybrooke\S3DirectUpload
 user-auth-provider: App\Models\User
 
 paths:
@@ -15,13 +15,13 @@ migration:
   prefix: ''
 
 console:
-  namespace: ChrisBraybrooke\NAMESPACE_HERE\Commands
+  namespace: ChrisBraybrooke\S3DirectUpload\Commands
 
 model:
-  namespace: ChrisBraybrooke\NAMESPACE_HERE\Models
+  namespace: ChrisBraybrooke\S3DirectUpload\Models
 
 provider:
-  namespace: ChrisBraybrooke\NAMESPACE_HERE\Providers
+  namespace: ChrisBraybrooke\S3DirectUpload\Providers
 
 testing:
-  namespace: ChrisBraybrooke\NAMESPACE_HERE\Tests
+  namespace: ChrisBraybrooke\S3DirectUpload\Tests

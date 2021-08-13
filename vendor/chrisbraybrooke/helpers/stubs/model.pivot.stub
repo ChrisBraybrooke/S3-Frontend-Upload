@@ -1,0 +1,77 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use ChrisBraybrooke\Helpers\Traits\HasUUID;
+use ChrisBraybrooke\Helpers\Traits\Responsable;
+
+class {{ class }} extends Pivot
+{
+    use HasUUID, Responsable;
+
+    /**
+     * The table that this pivot is associated with.
+     *
+     * @return boolean
+     */
+    // public $table = '';
+
+    /**
+     * Whether the ID collumn in auto incrementing.
+     *
+     * @return boolean
+     */
+    public $incrementing = false;
+
+    /**
+     * What the ID collumn key type is.
+     *
+     * @return string
+     */
+    protected $keyType = 'string';
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        //
+    ];
+
+    /**
+     * Get the extra columns on the pivot table.
+     *
+     * @return array
+     */
+    public static function columns(): array
+    {
+        return [];
+    }
+
+    /**
+     * Which collumns to use for ordering.
+     *
+     * @return array
+     */
+    private function responsableOrderByAlias()
+    {
+        return [
+            'id' => 'id',
+            'created_at' => 'created_at'
+        ];
+    }
+
+    /**
+     * Which collumns to use for search.
+     *
+     * @return array
+     */
+    private function responsableSearch()
+    {
+        return [
+            'id'
+        ];
+    }
+}

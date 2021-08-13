@@ -1,0 +1,23 @@
+{
+    "name": "chrisbraybrooke/helpers",
+    "description": "A simple helpers package for my projects.",
+    "authors": [
+        {
+            "name": "Christian Braybrooke",
+            "email": "chris@purplemountmedia.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ChrisBraybrooke\\Helpers\\": "src/"
+        }
+    },
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ChrisBraybrooke\\Helpers\\ServiceProvider"
+            ]
+        }
+    }
+}

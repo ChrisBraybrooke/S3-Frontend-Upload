@@ -4,11 +4,11 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | PACKAGE_NAME Core Translation Files
+    | s3-direct-upload Core Translation Files
     |--------------------------------------------------------------------------
     |
     | These are the core translation files for the package, they can be published
-    | and modified by running `php artisan vendor:publish --tag=PACKAGE_NAME-migrations
+    | and modified by running `php artisan vendor:publish --tag=s3-direct-upload-migrations
     |
     */
    

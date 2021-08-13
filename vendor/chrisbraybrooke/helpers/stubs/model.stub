@@ -1,0 +1,66 @@
+<?php
+
+namespace {{ namespace }};
+
+use ChrisBraybrooke\Helpers\Traits\Responsable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use ChrisBraybrooke\Helpers\Models\BaseModel;
+
+class {{ class }} extends BaseModel
+{
+    use HasFactory, Responsable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        //
+    ];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        //
+    ];
+
+    /**
+     * The event map for the model.
+     *
+     * Allows for object-based events for native Eloquent events.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        //
+    ];
+
+    /**
+     * Which collumns to use for ordering.
+     *
+     * @return array
+     */
+    private function responsableOrderByAlias()
+    {
+        return [
+            'id' => 'id',
+            'created_at' => 'created_at'
+        ];
+    }
+
+    /**
+     * Which collumns to use for search.
+     *
+     * @return array
+     */
+    private function responsableSearch()
+    {
+        return [
+            'id'
+        ];
+    }
+}

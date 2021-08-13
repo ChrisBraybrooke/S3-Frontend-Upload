@@ -2,10 +2,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| PACKAGE_NAME Web Routes
+| s3-direct-upload Web Routes
 |--------------------------------------------------------------------------
 |
-| These are the web routes for PACKAGE_NAME, the 'web' middleware has already
+| These are the web routes for s3-direct-upload, the 'web' middleware has already
 | been applied.
 |
 */

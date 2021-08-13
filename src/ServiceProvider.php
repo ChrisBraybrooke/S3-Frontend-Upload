@@ -1,8 +1,8 @@
 <?php
 
-namespace ChrisBraybrooke\NAMESPACE_HERE;
+namespace ChrisBraybrooke\S3DirectUpload;
 
-use ChrisBraybrooke\NAMESPACE_HERE\Providers\EventServiceProvider;
+use ChrisBraybrooke\S3DirectUpload\Providers\EventServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\FileSystem\FileSystem;
@@ -48,13 +48,13 @@ class ServiceProvider extends BaseServiceProvider
      */
     private function handleMigrations()
     {
-        if (!config('CONFIG_NAME.ignore_migrations')) {
+        if (!config('s3directupload.ignore_migrations')) {
             $this->loadMigrationsFrom(__DIR__.'/../database/migrations');            
         }
 
-        // $this->publishes([
-        //     __DIR__.'/../database/migrations/' => database_path('migrations')
-        // ], 'PACKAGE_NAME-migrations');
+        $this->publishes([
+            __DIR__.'/../database/migrations/' => database_path('migrations')
+        ], 's3-direct-upload-migrations');
     }
 
     /** 
@@ -64,11 +64,11 @@ class ServiceProvider extends BaseServiceProvider
      */
     private function handleTranslations()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'PACKAGE_NAME');
+        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 's3-direct-upload');
 
         $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('lang/vendor/PACKAGE_NAME'),
-        ], 'PACKAGE_NAME-translations');
+            __DIR__.'/../resources/lang' => resource_path('lang/vendor/s3-direct-upload'),
+        ], 's3-direct-upload-translations');
     }
 
     /** 
@@ -79,7 +79,7 @@ class ServiceProvider extends BaseServiceProvider
     private function mergeConfig()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/CONFIG_NAME.php', 'CONFIG_NAME'
+            __DIR__.'/../config/s3directupload.php', 's3directupload'
         );
     }
 
@@ -91,8 +91,8 @@ class ServiceProvider extends BaseServiceProvider
     private function handleConfigs()
     {
         $this->publishes([
-            __DIR__.'/../config/CONFIG_NAME.php' => config_path('CONFIG_NAME.php')
-        ], 'PACKAGE_NAME-config');
+            __DIR__.'/../config/s3directupload.php' => config_path('s3directupload.php')
+        ], 's3-direct-upload-config');
     }
 
     /** 
@@ -103,18 +103,17 @@ class ServiceProvider extends BaseServiceProvider
     private function handleRoutes()
     {
         Route::group([
-            'name' => 'PACKAGE_NAME-web',
-            'prefix' => 'PACKAGE_NAME.web',
-            'namespace' => 'ChrisBraybrooke\NAMESPACE_HERE\Http\Controllers',
+            'name' => 's3-direct-upload-web',
+            'namespace' => 'ChrisBraybrooke\S3DirectUpload\Http\Controllers',
             'middleware' => ['web']
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/web.php');
         });
 
         Route::group([
-            'name' => 'PACKAGE_NAME-web',
-            'prefix' => 'PACKAGE_NAME.api',
-            'namespace' => 'ChrisBraybrooke\NAMESPACE_HERE\Http\Controllers\Api',
+            'name' => 's3-direct-upload-web',
+            'prefix' => 'api',
+            'namespace' => 'ChrisBraybrooke\S3DirectUpload\Http\Controllers\Api',
             'middleware' => ['api']
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/../routes/api.php');

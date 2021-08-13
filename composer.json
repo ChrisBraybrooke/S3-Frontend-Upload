@@ -1,5 +1,5 @@
 {
-    "name": "chrisbraybrooke/PACKAGE_NAME",
+    "name": "chrisbraybrooke/s3-direct-upload",
     "description": "A package by Christian Braybrooke",
     "authors": [
         {
@@ -9,20 +9,22 @@
     ],
     "autoload": {
         "psr-4": {
-            "ChrisBraybrooke\\NAMESPACE_HERE\\": "src/"
+            "ChrisBraybrooke\\S3DirectUpload\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "ChrisBraybrooke\\NAMESPACE_HERE\\ServiceProvider"
+                "ChrisBraybrooke\\S3DirectUpload\\ServiceProvider"
             ]
         }
     },
     "require": {
         "php": "^7.3|^8.0",
         "laravel/framework": "^8",
-        "chrisbraybrooke/helpers": "^0.0.1"
+        "chrisbraybrooke/helpers": "^0.0.1",
+        "aws/aws-sdk-php": "^3.190",
+        "league/flysystem-aws-s3-v3": "^1.0"
     },
     "require-dev": {
         "orchestra/canvas": "^6.4"
